@@ -15,9 +15,11 @@ type BlogPost struct {
 	Body  template.HTML
 }
 
-func loadBlogPost(title string) (*BlogPost, error) {
+type FileReader func(filename string) ([]byte, error)
+
+func loadBlogPost(title string, fileReader FileReader) (*BlogPost, error) {
 	filename := "views/blogs/" + title + ".md"
-	body, err := ioutil.ReadFile(filename)
+	body, err := fileReader(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +37,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, bp *BlogPost) {
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len(("/posts/")):]
-	bp, err := loadBlogPost(title)
+	bp, err := loadBlogPost(title, ioutil.ReadFile)
 	if err != nil {
 		bp = &BlogPost{Title: title, Body: template.HTML("Looks like I never wrote this post!")}
 	}
