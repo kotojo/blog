@@ -9,6 +9,7 @@ WORKDIR /app
 RUN apk add --no-cache git
 # build src
 COPY go.mod .
+COPY go.sum .
 RUN go mod download
 
 # app src
