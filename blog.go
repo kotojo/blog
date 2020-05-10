@@ -14,7 +14,7 @@ type BlogPost struct {
 }
 
 func loadBlogPost(title string) (*BlogPost, error) {
-	filename := title + ".md"
+	filename := "views/blogs/" + title + ".md"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -23,8 +23,11 @@ func loadBlogPost(title string) (*BlogPost, error) {
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, bp *BlogPost) {
-	t, _ := template.ParseFiles(tmpl + ".html")
-	t.Execute(w, bp)
+	t, _ := template.ParseFiles("views/" + tmpl + ".html")
+	err := t.Execute(w, bp)
+	if err != nil {
+		fmt.Fprint(w, "Wow! Something went really wrong over here!")
+	}
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,11 +40,11 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
-	file, err := ioutil.ReadFile("index.html")
+	file, err := ioutil.ReadFile("views/index.html")
 	if err != nil {
 		fmt.Fprintf(w, "Sorry! Couldn't find that page!")
 	}
-	fmt.Fprintf(w, string(file))
+	fmt.Fprint(w, string(file))
 }
 
 func main() {
