@@ -6,11 +6,13 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/russross/blackfriday/v2"
 )
 
 type BlogPost struct {
 	Title string
-	Body  []byte
+	Body  template.HTML
 }
 
 func loadBlogPost(title string) (*BlogPost, error) {
@@ -19,7 +21,8 @@ func loadBlogPost(title string) (*BlogPost, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &BlogPost{Title: title, Body: body}, nil
+	blogHtml := template.HTML(blackfriday.Run(body))
+	return &BlogPost{Title: title, Body: blogHtml}, nil
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, bp *BlogPost) {
@@ -34,7 +37,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len(("/posts/")):]
 	bp, err := loadBlogPost(title)
 	if err != nil {
-		bp = &BlogPost{Title: title, Body: []byte("Looks like I never wrote this post!")}
+		bp = &BlogPost{Title: title, Body: template.HTML("Looks like I never wrote this post!")}
 	}
 	renderTemplate(w, "blog", bp)
 }
