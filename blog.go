@@ -17,7 +17,7 @@ type BlogPost struct {
 
 type FileReader func(filename string) ([]byte, error)
 
-var templates = template.Must(template.ParseFiles("views/post.html", "view/index.html"))
+var templates = template.Must(template.ParseFiles("views/post.html", "views/index.html"))
 
 func loadBlogPost(title string, fileReader FileReader) (*BlogPost, error) {
 	filename := "views/posts/" + title + ".md"
@@ -30,7 +30,7 @@ func loadBlogPost(title string, fileReader FileReader) (*BlogPost, error) {
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, bp *BlogPost) {
-	err := templates.ExecuteTemplate(w, "views/"+tmpl+".html", bp)
+	err := templates.ExecuteTemplate(w, tmpl+".html", bp)
 	if err != nil {
 		fmt.Fprint(w, err.Error(), http.StatusInternalServerError)
 	}
