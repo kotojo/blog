@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+  <style>
+    html {
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #CFCFCF;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 0;
+    }
+
+    .nav {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      font-size: 1.2em;
+      background-color: #969696;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .post {
+      align-self: start;
+      margin: 2rem auto;
+      max-width: 60rem;
+      background-color: #ababab;
+      padding: 1rem;
+    }
+
+    .post h1 {
+      text-align: center;
+    }
+
+    @media screen and (max-width: 1024px) {
+      .post {
+        width: calc(100vw - 4rem);
+      }
+    }
+  </style>
+</head>
 <body>
-  <nav>BK</nav>
-  <h1>{{.Title}}</h1>
-  <div>
-    {{.Body}}
-  </div>
+  <nav class="nav"><a href="/"><strong>brucekellerman.com</strong></a></nav>
+  <main class="post">
+    <h1>{{.Title}}</h1>
+    <div>
+      {{.Body}}
+    </div>
+  </main>
 </body>
 
 </html>
