@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+{{define "yield"}}
   <style>
     html {
       font-size: 16px;
@@ -51,8 +48,6 @@
       }
     }
   </style>
-</head>
-<body>
   <nav class="nav"><a href="/"><strong>brucekellerman.com</strong></a></nav>
   <main class="post">
     <h1>{{.Title}}</h1>
@@ -60,6 +55,4 @@
       {{.Body}}
     </div>
   </main>
-</body>
-
-</html>
+{{end}}
